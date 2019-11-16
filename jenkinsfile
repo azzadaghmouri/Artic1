@@ -1,32 +1,14 @@
-pipeline {
-   agent any
-
-    stages {
-        stage('Chekout') {
-            steps {
-	    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/elyes97/RepoTest.git']]])
-        echo 'Building 2..'        
-	}  
-	}
+node {
+        stage('Poll') {
+            checkout scm
+        }
         stage('Build') {
-            steps {
-	    withMaven(maven:'maven'){
-	    bat label: '', script: 'mvn install';}
-                echo 'Building..'
-            }
+            bat 'mvn install';
         }
         stage('Test') {
-            steps {
-	    withMaven(maven:'maven'){
-	    bat label: '', script: '''mvn test;}
-'''
-                echo 'Testing..'
-            }
+            bat 'mvn test';
         }
         stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
+            bat 'mvn deploy';
         }
-    }
-}
+     }
