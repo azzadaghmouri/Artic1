@@ -19,7 +19,7 @@ pipeline {
         stage('Test') {
             steps {
 	    withMaven(maven:'maven'){
-	    bat label: '', script: '''mvn test;}
+	    bat label: '', script: '''mvn test';}
 '''
                 echo 'Testing..'
             }
