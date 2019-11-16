@@ -7,7 +7,7 @@ pipeline {
         stage("clone code") {
             steps {
                 script {
-			withMaven(maven:'mm'){
+			withMaven(maven:'maven'){
                     // Let's clone the source
 				git 'https://github.com/Hanaagu/hello-world-greeting';}
                 }
@@ -18,7 +18,7 @@ pipeline {
                 script {
                     // If you are using Windows then you should use "bat" step
                     // Since unit testing is out of the scope we skip them
-			withMaven(maven:'mm'){
+			withMaven(maven:'maven'){
 				bat "mvn package -DskipTests=true"}
                 }
             }
@@ -28,7 +28,7 @@ pipeline {
                 script {
                     // If you are using Windows then you should use "bat" step
                     // Since unit testing is out of the scope we skip them
-			withMaven(maven:'mm'){
+			withMaven(maven:'maven'){
 				bat "mvn clean"}
                 }
             }
@@ -38,7 +38,7 @@ pipeline {
                 script {
                     // If you are using Windows then you should use "bat" step
                     // Since unit testing is out of the scope we skip them
-			withMaven(maven:'mm'){
+			withMaven(maven:'maven'){
 				bat "mvn test"}
                 }
             }
