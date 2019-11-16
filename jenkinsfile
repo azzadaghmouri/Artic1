@@ -13,8 +13,8 @@ pipeline {
 	    withMaven(maven:'maven'){
 	    bat label: '', script: 'mvn install';}
                 echo 'Building..'
-            }
-	    }
+        }
+	}
         stage('Test') {
             steps {
 	    withMaven(maven:'maven'){
