@@ -14,6 +14,7 @@ pipeline {
 	    bat label: '', script: 'mvn install';}
                 echo 'Building..'
             }
+	    }
         }
         stage('Test') {
             steps {
