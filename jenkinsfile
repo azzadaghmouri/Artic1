@@ -1,4 +1,3 @@
-
 pipeline {
    agent any
 
@@ -11,13 +10,15 @@ pipeline {
 	}
         stage('Build') {
             steps {
-	    bat label: '', script: 'mvn install'
+	    withMaven(maven:'maven'){
+	    bat label: '', script: 'mvn install';}
                 echo 'Building..'
             }
         }
         stage('Test') {
             steps {
-	    bat label: '', script: '''mvn test
+	    withMaven(maven:'maven'){
+	    bat label: '', script: '''mvn test;}
 '''
                 echo 'Testing..'
             }
