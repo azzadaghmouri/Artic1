@@ -1,52 +1,30 @@
 pipeline {
-    agent {
-        label "master"
-    }
- 
+   agent any
+
     stages {
-        stage("clone code") {
+        stage('Chekout') {
             steps {
-                script {
-			withMaven(maven:'mm'){
-                    // Let's clone the source
-				git 'https://github.com/Hanaagu/hello-world-greeting';}
-                }
+	    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/elyes97/RepoTest.git']]])
+        echo 'Building 2..'        
+	}  
+	}
+        stage('Build') {
+            steps {
+	    bat label: '', script: 'mvn install'
+                echo 'Building..'
             }
         }
-        stage("mvn build") {
+        stage('Test') {
             steps {
-                script {
-                    // If you are using Windows then you should use "bat" step
-                    // Since unit testing is out of the scope we skip them
-			withMaven(maven:'mm'){
-				bat "mvn package -DskipTests=true"}
-                }
+	    bat label: '', script: '''mvn test
+'''
+                echo 'Testing..'
             }
         }
-        stage("mvn clean install ") {
+        stage('Deploy') {
             steps {
-                script {
-                    // If you are using Windows then you should use "bat" step
-                    // Since unit testing is out of the scope we skip them
-			withMaven(maven:'mm'){
-				bat "mvn clean"}
-                }
+                echo 'Deploying....'
             }
         }
-        stage("mvn test ") {
-            steps {
-                script {
-                    // If you are using Windows then you should use "bat" step
-                    // Since unit testing is out of the scope we skip them
-			withMaven(maven:'mm'){
-				bat "mvn test"}
-                }
-            }
-        }
-	     
-	 
-       
-}
-
-
+    }
 }
