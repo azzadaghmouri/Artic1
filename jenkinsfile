@@ -10,15 +10,13 @@ pipeline {
 	}
         stage('Build') {
             steps {
-	    withMaven(maven:'maven'){
-	    bat label: '', script: 'mvn install';}
+	    bat label: '', script: 'mvn install'
                 echo 'Building..'
+            }
         }
-	}
         stage('Test') {
             steps {
-	    withMaven(maven:'maven'){
-	    bat label: '', script: '''mvn test';}
+	    bat label: '', script: '''mvn test
 '''
                 echo 'Testing..'
             }
@@ -29,5 +27,4 @@ pipeline {
             }
         }
     }
-}
 }
