@@ -10,14 +10,14 @@ pipeline {
 	}
         stage('Build') {
             steps {
-	    withMaven(maven:Maven 3.6.0){
+	    withMaven(maven:'maven'){
 	    bat label: '', script: 'mvn install';}
                 echo 'Building..'
             }
         }
         stage('Test') {
             steps {
-	    withMaven(maven:Maven 3.6.0){
+	    withMaven(maven:'maven'){
 	    bat label: '', script: '''mvn test;}
 '''
                 echo 'Testing..'
