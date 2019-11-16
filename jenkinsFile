@@ -1,30 +1,69 @@
 pipeline {
-   agent any
-
-    stages {
-        stage('Chekout') {
-            steps {
-	    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/elyes97/RepoTest.git']]])
-        echo 'Building 2..'        
-	}  
-        stage('Build') {
-            steps {
-	
-                echo 'Building..'
-            }
-        }
-        stage('Test') {
-            steps {
-	    
-'''
-                echo 'Testing..'
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying....'
-            }
-        }
+    agent {
+        label "master"
     }
+ 
+    stages {
+        stage("clone code") {
+            steps {
+                script {
+			withMaven(maven:'mm'){
+                    // Let's clone the source
+				git 'https://github.com/Hanaagu/hello-world-greeting';}
+                }
+            }
+        }
+        stage("mvn build") {
+            steps {
+                script {
+                    // If you are using Windows then you should use "bat" step
+                    // Since unit testing is out of the scope we skip them
+			withMaven(maven:'mm'){
+				bat "mvn package -DskipTests=true"}
+                }
+            }
+        }
+        stage("mvn clean install ") {
+            steps {
+                script {
+                    // If you are using Windows then you should use "bat" step
+                    // Since unit testing is out of the scope we skip them
+			withMaven(maven:'mm'){
+				bat "mvn clean"}
+                }
+            }
+        }
+        stage("mvn test ") {
+            steps {
+                script {
+                    // If you are using Windows then you should use "bat" step
+                    // Since unit testing is out of the scope we skip them
+			withMaven(maven:'mm'){
+				bat "mvn test"}
+                }
+            }
+        }
+	     
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+	    
+             
+        
+        
+	    
+    
+        
+        
+       
 }
 
+
+}
